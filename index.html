@@ -92,6 +92,26 @@ select.ab{appearance:auto}
 .dlg>div{background:var(--card);background:var(--bg);border-radius:18px;padding:20px;width:min(92vw,360px);display:grid;gap:12px}
 .dlg input{font:inherit;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
 .dlg button{background:var(--acc);color:#fff;border-radius:10px;padding:11px;font-weight:600}
+/* ---- Librairie : cartes pleine largeur façon App Store (une carte = une bande) ---- */
+#vLib{padding:6px 16px 0}#vLib>*{max-width:640px;margin-left:auto;margin-right:auto}
+#vLib h1{font-size:34px;font-weight:800;letter-spacing:-.025em;margin:6px 0 12px}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin:0 0 4px}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border-radius:999px;padding:7px 15px;font-size:14px;font-weight:500;background:var(--fill);color:var(--ink)}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+.ls{margin:26px 4px 12px}.ls h2{margin:0;font-size:22px;font-weight:700;letter-spacing:-.015em}.ls p{margin:2px 0 0;font-size:15px;color:var(--mut)}
+.bc{border-radius:22px;overflow:hidden;background:#111;border:.5px solid var(--line);color:#fff}
+.bc .im{position:relative;height:340px;cursor:pointer}
+.bc .im svg{position:absolute;inset:0;width:100%;height:100%}
+.bc .im:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 30%,rgba(0,0,0,.78))}
+.bc .tx{position:absolute;left:18px;right:18px;bottom:16px;z-index:1}
+.bc .tx small{display:block;font-size:13px;font-weight:600;letter-spacing:.06em;color:rgba(255,255,255,.72);margin-bottom:4px}
+.bc .tx b{display:block;font-size:32px;line-height:1.08;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
+.bc .tx span{display:block;font-size:15px;color:rgba(255,255,255,.72);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bc .st{display:flex;align-items:center;gap:12px;padding:12px 14px;background:rgba(44,38,32,.95)}
+.bc .th{width:50px;height:50px;border-radius:12px;display:grid;place-items:center;font-size:13px;font-weight:700;color:#fff;flex:none}
+.bc .st div{flex:1;min-width:0}.bc .st b{display:block;font-size:16px;font-weight:600}.bc .st em{display:block;font-style:normal;font-size:13px;color:rgba(255,255,255,.6);line-height:1.3}
+.bc .pl{width:38px;height:38px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;flex:none}.bc .pl svg{width:19px;height:19px}
+.lvide{color:var(--mut);text-align:center;padding:40px 0}
 </style>
 <style id="lcsub-css">/* LifeCasts : sous-page Réglages commune (Compte › Réglages) */
 .lcsub{position:fixed;inset:0;z-index:2147483000;overflow:auto;-webkit-overflow-scrolling:touch;padding:calc(env(safe-area-inset-top) + 14px) 16px calc(env(safe-area-inset-bottom) + 40px);transform:translateX(100%);transition:transform .3s ease;box-sizing:border-box}
@@ -168,7 +188,25 @@ function render(){
  q("tabs").querySelectorAll("button").forEach(b=>b.setAttribute("aria-selected",b.dataset.t===tab));
  ["radio","lib","acc"].forEach(t=>{const v=q(t==="acc"?"vAcc":t==="lib"?"vLib":"vRadio");v.hidden=t!==tab});
  q("srI").placeholder=PH[tab];q("srI").value="";
+ if(tab==="lib")drawLib();
  if(tab==="acc"){drawAcct();drawSet()}}
+// ---------- Librairie : une carte = une bande ; l'image dépend de la retranscription (VGR, SHP…) ----------
+const VERS={VGR:{n:"VGR",c:["#1d3640","#3f6b78","#8fb8c2"]},SHP:{n:"SHP",c:["#40202c","#7a3f55","#d49ab0"]}};
+const BANDES=[ // exemples : à remplacer par la vraie source de données
+ {id:"47-0412",t:"Le chemin ouvert",r:"Un appel à avancer par la foi, pas à pas.",v:"VGR",d:"12 avr. 1947",l:"Jeffersonville",h:"1 h 42",a:1},
+ {id:"53-0906",t:"Une voix dans la nuit",r:"Le message d’un soir qui change une vie.",v:"VGR",d:"6 sept. 1953",l:"Phoenix",h:"2 h 05",a:1},
+ {id:"60-1125",t:"L’heure du soir",r:"Une exhortation à se préparer avant la fin du jour.",v:"SHP",d:"25 nov. 1960",l:"Jeffersonville",h:"1 h 18",a:0}];
+let vf="";
+const bImg=c=>`<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="100" height="100" fill="${c[0]}"/><circle cx="72" cy="30" r="26" fill="${c[1]}"/><circle cx="72" cy="30" r="12" fill="${c[2]}"/><path d="M0 100V62Q30 44 55 60T100 52V100Z" fill="${c[1]}" opacity=".6"/></svg>`;
+function bCard(b){const V=VERS[b.v]||VERS.VGR,c=V.c;
+ return `<article class="bc"><div class="im" data-b="${esc(b.id)}">${bImg(c)}<div class="tx"><small>${b.a?"DISPONIBLE EN AUDIO":"DISPONIBLE EN TEXTE"}</small><b>${esc(b.t)}</b><span>${esc(b.r)}</span></div></div>`
+ +`<div class="st"><i class="th" style="background:${c[1]}">${esc(V.n)}</i><div><b>${esc(b.id)} · ${esc(b.t)}</b><em>${esc(b.d)} · ${esc(b.l)} · ${esc(b.h)}</em></div><button class="pl" data-b="${esc(b.id)}" aria-label="${b.a?"Écouter":"Lire"}">${b.a?'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>':SV('<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19a2 2 0 0 1 2-2h13"/>')}</button></div></article>`}
+function drawLib(){
+ const L=BANDES.filter(b=>!vf||b.v===vf),sec=(t,s,a)=>a.length?`<div class="ls"><h2>${t}</h2><p>${s}</p></div>${a.map(bCard).join("")}`:"";
+ q("vLib").innerHTML=`<h1>Librairie</h1><div class="chips">${[["","Tout"]].concat(Object.keys(VERS).map(k=>[k,k])).map(x=>`<button class="chip" data-v="${x[0]}" aria-pressed="${vf===x[0]}">${x[1]}</button>`).join("")}</div>`
+  +(sec("Disponibles en audio","Écoutez en suivant le texte",L.filter(b=>b.a))+sec("À lire pour l’instant","Pas encore d’audio pour cette version",L.filter(b=>!b.a))||'<div class="lvide">Aucune bande pour cette version.</div>');
+ q("vLib").querySelectorAll(".chip").forEach(c=>c.onclick=()=>{vf=c.dataset.v;drawLib()});
+ q("vLib").querySelectorAll("[data-b]").forEach(e=>e.onclick=()=>toast("Lecteur bientôt disponible"))}
 const acc=()=>ACC.find(a=>a.id===CUR);
 
 // ---------- Compte (structure commune LifeCasts) ----------

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>LifeCasts</title>
-<script>/*LC-OTA*/(function(){var B="0.4";window.LC_BUILT=B;
+<script>/*LC-OTA*/(function(){var B="0.4.1";window.LC_BUILT=B;
 function c(a,b){a=String(a).split(".");b=String(b).split(".");for(var i=0;i<Math.max(a.length,b.length);i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d>0?1:-1}return 0}window.LC_CMP=c;
 if(window.LC_OTA_VER){window.LC_VER=window.LC_OTA_VER;return}window.LC_VER=B;
 if(location.protocol!=="file:")return;
@@ -209,13 +209,13 @@ function render(){
 const HOUSES={vgr:{n:"VGR",logo:"logo-vgr.png?v=1",f:"c"},shp:{n:"SHP",logo:"logo-shp.png?v=1",f:"f"}};
 // DONNÉES DE DÉMONSTRATION (fictives) : d = date, p = M/A/E, du = minutes, sm = résumé d'une ligne, img = pochette LifeCasts, tr = [[maison, pochette de la transcription]]
 const BANDES=[
- {id:"paradox",t:"A Paradox",sm:"Quand la Parole semble se contredire, la foi y voit une seule vérité.",d:"1965-02-11",p:"E",du:118,lieu:"Jeffersonville, IN",a:1,img:"cover-paradox.jpg",tr:[["vgr","cover-paradox.jpg"],["shp","cover-paradox-shp.jpg"]]},
- {id:"seal7",t:"The Seventh Seal",sm:"Le silence du ciel et l'ouverture du dernier sceau.",d:"1963-03-24",p:"M",du:162,lieu:"Jeffersonville, IN",a:1,img:"cover-paradox.jpg",tr:[["vgr","cover-paradox.jpg"]]},
- {id:"mystery",t:"Christ Is the Mystery of God Revealed",sm:"Le mystère caché de Dieu dévoilé en la personne de Christ.",d:"1963-07-28",p:"E",du:134,lieu:"Jeffersonville, IN",a:1,img:"cover-paradox.jpg",tr:[["vgr","cover-paradox.jpg"],["shp","cover-paradox-shp.jpg"]]},
- {id:"seed",t:"The Spoken Word Is the Original Seed",sm:"Pourquoi la Parole prononcée porte en elle toute la semence.",d:"1962-03-18",p:"M",du:97,lieu:"Phoenix, AZ",a:1,img:"cover-paradox.jpg",tr:[["shp","cover-paradox-shp.jpg"]]},
- {id:"shalom",t:"Shalom",sm:"Une salutation de paix et ce qu'elle annonce.",d:"1964-01-05",p:"A",du:76,lieu:"Los Angeles, CA",a:1,img:"cover-paradox.jpg",tr:[["vgr","cover-paradox.jpg"]]},
- {id:"hear",t:"Hear Ye Him",sm:"Écouter la voix de Dieu plutôt que celle des hommes.",d:"1960-08-14",p:"M",du:88,lieu:"Shreveport, LA",a:0,img:"cover-paradox.jpg",tr:[["vgr","cover-paradox.jpg"],["shp","cover-paradox-shp.jpg"]]},
- {id:"faith",t:"Faith Is the Substance",sm:"La foi comme réalité déjà présente de ce qu'on espère.",d:"1957-01-29",p:"E",du:104,lieu:"Phoenix, AZ",a:1,img:"cover-paradox.jpg",tr:[["shp","cover-paradox-shp.jpg"]]}];
+ {id:"paradox",t:"A Paradox",sm:"Quand la Parole semble se contredire, la foi y voit une seule vérité.",d:"1965-02-11",p:"E",du:118,lieu:"Jeffersonville, IN",a:1,img:"https://images.unsplash.com/photo-1782829566203-b30884338029?fm=jpg&q=75&w=900&auto=format&fit=crop",tr:[["vgr","https://images.unsplash.com/photo-1782829566203-b30884338029?fm=jpg&q=75&w=900&auto=format&fit=crop"],["shp","https://images.unsplash.com/photo-1782829566203-b30884338029?fm=jpg&q=75&w=900&auto=format&fit=crop&sat=-70"]]},
+ {id:"seal7",t:"The Seventh Seal",sm:"Le silence du ciel et l'ouverture du dernier sceau.",d:"1963-03-24",p:"M",du:162,lieu:"Jeffersonville, IN",a:1,img:"https://images.unsplash.com/photo-1686012391110-66768cd0a0ac?fm=jpg&q=75&w=900&auto=format&fit=crop",tr:[["vgr","https://images.unsplash.com/photo-1686012391110-66768cd0a0ac?fm=jpg&q=75&w=900&auto=format&fit=crop"]]},
+ {id:"mystery",t:"Christ Is the Mystery of God Revealed",sm:"Le mystère caché de Dieu dévoilé en la personne de Christ.",d:"1963-07-28",p:"E",du:134,lieu:"Jeffersonville, IN",a:1,img:"https://images.unsplash.com/photo-1641821078853-ababf7abd44e?fm=jpg&q=75&w=900&auto=format&fit=crop",tr:[["vgr","https://images.unsplash.com/photo-1641821078853-ababf7abd44e?fm=jpg&q=75&w=900&auto=format&fit=crop"],["shp","https://images.unsplash.com/photo-1641821078853-ababf7abd44e?fm=jpg&q=75&w=900&auto=format&fit=crop&sat=-70"]]},
+ {id:"seed",t:"The Spoken Word Is the Original Seed",sm:"Pourquoi la Parole prononcée porte en elle toute la semence.",d:"1962-03-18",p:"M",du:97,lieu:"Phoenix, AZ",a:1,img:"https://images.unsplash.com/photo-1692199336368-9f4ed1971c43?fm=jpg&q=75&w=900&auto=format&fit=crop",tr:[["shp","https://images.unsplash.com/photo-1692199336368-9f4ed1971c43?fm=jpg&q=75&w=900&auto=format&fit=crop&sat=-70"]]},
+ {id:"shalom",t:"Shalom",sm:"Une salutation de paix et ce qu'elle annonce.",d:"1964-01-05",p:"A",du:76,lieu:"Los Angeles, CA",a:1,img:"https://images.unsplash.com/photo-1659720679650-a4b7a7577afb?fm=jpg&q=75&w=900&auto=format&fit=crop",tr:[["vgr","https://images.unsplash.com/photo-1659720679650-a4b7a7577afb?fm=jpg&q=75&w=900&auto=format&fit=crop"]]},
+ {id:"hear",t:"Hear Ye Him",sm:"Écouter la voix de Dieu plutôt que celle des hommes.",d:"1960-08-14",p:"M",du:88,lieu:"Shreveport, LA",a:0,img:"https://images.unsplash.com/photo-1686012216030-aa93a1283560?fm=jpg&q=75&w=900&auto=format&fit=crop",tr:[["vgr","https://images.unsplash.com/photo-1686012216030-aa93a1283560?fm=jpg&q=75&w=900&auto=format&fit=crop"],["shp","https://images.unsplash.com/photo-1686012216030-aa93a1283560?fm=jpg&q=75&w=900&auto=format&fit=crop&sat=-70"]]},
+ {id:"faith",t:"Faith Is the Substance",sm:"La foi comme réalité déjà présente de ce qu'on espère.",d:"1957-01-29",p:"E",du:104,lieu:"Phoenix, AZ",a:1,img:"https://images.unsplash.com/photo-1686013097793-397fb2d6c612?fm=jpg&q=75&w=900&auto=format&fit=crop",tr:[["shp","https://images.unsplash.com/photo-1686013097793-397fb2d6c612?fm=jpg&q=75&w=900&auto=format&fit=crop&sat=-70"]]}];
 const TR=ls.g("rd.tr",{});let vf="",SO=ls.g("rd.sort",{k:"d",r:0}),fmo=false;
 const trOf=b=>TR[b.id]&&b.tr.some(x=>x[0]===TR[b.id])?TR[b.id]:b.tr[0][0];
 const cover=b=>b.tr.length===1?b.tr[0][1]:(TR[b.id]&&b.tr.some(x=>x[0]===TR[b.id])?b.tr.find(x=>x[0]===TR[b.id])[1]:b.img);

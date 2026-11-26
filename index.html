@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>LifeCasts Radio</title>
-<script>/*LC-OTA*/(function(){var B="0.3";window.LC_BUILT=B;
+<title>LifeCasts</title>
+<script>/*LC-OTA*/(function(){var B="0.4";window.LC_BUILT=B;
 function c(a,b){a=String(a).split(".");b=String(b).split(".");for(var i=0;i<Math.max(a.length,b.length);i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d>0?1:-1}return 0}window.LC_CMP=c;
 if(window.LC_OTA_VER){window.LC_VER=window.LC_OTA_VER;return}window.LC_VER=B;
 if(location.protocol!=="file:")return;
@@ -21,8 +21,8 @@ g.onsuccess=function(){var h=g.result;if(!h||h.indexOf("/*LC-OTA*/")<0)return fa
 })()</script>
 
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon-192.png?v=1">
-<link rel="apple-touch-icon" href="icon-192.png?v=1">
+<link rel="icon" type="image/png" href="icon-192.png?v=2">
+<link rel="apple-touch-icon" href="icon-192.png?v=2">
 <meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -99,17 +99,32 @@ select.ab{appearance:auto}
 .chip{flex:none;border-radius:999px;padding:7px 15px;font-size:14px;font-weight:500;background:var(--fill);color:var(--ink)}
 .chip[aria-pressed=true]{background:var(--ink);color:var(--bg)}
 .ls{margin:28px 4px 14px}.ls h2{margin:0;font-size:22px;font-weight:700;letter-spacing:-.015em}.ls p{margin:2px 0 0;font-size:15px;color:var(--mut)}
+#vLib{position:relative}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:6px 0 12px}.hd h1{margin:0!important}
+.rb{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--fill);color:var(--ink);flex:none}.rb .i{width:20px;height:20px}.rb[aria-expanded=true]{background:var(--ink);color:var(--bg)}
+.fm{position:absolute;right:16px;top:58px;z-index:30;width:min(78vw,290px);background:var(--card);border:.5px solid var(--line);border-radius:16px;box-shadow:var(--sh);overflow:hidden}
+.fm[hidden]{display:none}
+.fr{display:flex;align-items:center;gap:10px;width:100%;padding:12px 16px;text-align:left;border-bottom:.5px solid var(--line);font-size:16px;color:var(--ink)}.fr:last-child{border:0}
+.fr span{flex:1}.fr small{display:block;font-size:12.5px;color:var(--mut)}.fr .i{width:18px;height:18px;color:var(--acc)}.fr[aria-checked=true]{font-weight:600}
+.lp{margin:18px 4px 12px!important}.lp h2{font-size:18px!important}
 #vLib .bc{display:flex;flex-direction:column;border-radius:26px;overflow:hidden;background:#161412;border:.5px solid var(--line);color:#fff;margin-bottom:24px;box-shadow:var(--sh)}
 .bc .im{position:relative;display:flex;align-items:flex-end;min-height:360px;padding:20px 20px 18px;cursor:pointer;background:#222 center 30%/cover no-repeat}
-.bc .im:after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0) 38%,rgba(0,0,0,.82))}
+/* brume : flou progressif + voile chaud sous le texte (façon Apple TV) */
+.bc .im:after{content:"";position:absolute;left:0;right:0;bottom:0;height:70%;pointer-events:none;background:linear-gradient(to bottom,rgba(18,11,4,0),rgba(18,11,4,.5) 42%,rgba(14,9,4,.94));-webkit-backdrop-filter:blur(16px) saturate(1.15);backdrop-filter:blur(16px) saturate(1.15);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 58%);mask-image:linear-gradient(to bottom,transparent,#000 58%)}
 .bc .tx{position:relative;z-index:1;min-width:0;width:100%}
-.bc .tx small{display:block;font-size:12.5px;font-weight:600;letter-spacing:.07em;color:rgba(255,255,255,.75);margin-bottom:6px}
+.bc .tx small{display:block;font-size:12.5px;font-weight:600;letter-spacing:.07em;color:rgba(255,255,255,.72);margin-bottom:6px}
 .bc .tx b{display:block;font-size:32px;line-height:1.1;font-weight:700;letter-spacing:-.02em;margin-bottom:6px;overflow-wrap:anywhere}
-.bc .tx span{display:block;font-size:15px;line-height:1.35;color:rgba(255,255,255,.78)}
+.bc .tx span{display:block;font-size:15px;line-height:1.35;color:rgba(255,255,255,.72);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bc .st{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#2a2520}
-.bc .th{width:48px;height:48px;border-radius:11px;flex:none;background:#333 center/cover no-repeat}
+.th{position:relative;display:block;width:48px;height:48px;border-radius:11px;flex:none;background:#333 center/cover no-repeat;border:0;padding:0}
+.th.shp{background-color:#fff;background-size:84%}
+.th.m:after{content:"";position:absolute;right:-4px;bottom:-4px;width:18px;height:18px;border-radius:50%;background:#4a433b url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m7 10 5 5 5-5'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:0 0 0 2px #2a2520}
 .bc .st div{flex:1;min-width:0}.bc .st b{display:block;font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bc .st em{display:block;font-style:normal;font-size:13px;color:rgba(255,255,255,.6);line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .bc .pl{width:40px;height:40px;border-radius:50%;background:#fff;color:#000;display:grid;place-items:center;flex:none}.bc .pl svg{width:19px;height:19px}
+.trs{align-items:end}.trs>div{width:min(94vw,420px);gap:0;padding:8px 0;border:.5px solid var(--line);margin-bottom:calc(env(safe-area-inset-bottom) + 8px)}
+.trs h3{margin:10px 20px 6px;font-size:13px;text-transform:uppercase;color:var(--mut);font-weight:500}
+.trs .tr{display:flex;align-items:center;gap:14px;padding:10px 20px;background:none;color:var(--ink);text-align:left;border-radius:0;font-weight:400}
+.trs .tr span{flex:1;font-size:16px;font-weight:600}.trs .tr small{display:block;font-size:13px;color:var(--mut);font-weight:400}.trs .tr .i{width:20px;height:20px;color:var(--acc)}
 .lvide{color:var(--mut);text-align:center;padding:40px 0}
 </style>
 <style id="lcsub-css">/* LifeCasts : sous-page Réglages commune (Compte › Réglages) */
@@ -190,18 +205,47 @@ function render(){
  if(tab==="lib")drawLib();
  if(tab==="acc"){drawAcct();drawSet()}}
 // ---------- Librairie : une carte = une bande, avec la vraie couverture ----------
-const BANDES=[ // à remplacer par la vraie source de données ; img = couverture, th = miniature
- {id:"paradox",t:"A Paradox",r:"William Marrion Branham",s:"The Spoken Word",img:"cover-paradox.jpg",th:"cover-paradox-thumb.jpg",a:1}];
-let vf="";
-function bCard(b){
- return `<article class="bc"><div class="im" data-b="${esc(b.id)}" style="background-image:url(${esc(b.img)})"><div class="tx"><small>${b.a?"DISPONIBLE EN AUDIO":"DISPONIBLE EN TEXTE"}</small><b>${esc(b.t)}</b><span>${esc(b.r)}</span></div></div>`
- +`<div class="st"><i class="th" style="background-image:url(${esc(b.th)})"></i><div><b>${esc(b.t)}</b><em>${esc(b.r)} · ${esc(b.s)}</em></div><button class="pl" data-b="${esc(b.id)}" aria-label="${b.a?"Écouter":"Lire"}">${b.a?'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>':SV('<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19a2 2 0 0 1 2-2h13"/>')}</button></div></article>`}
+// Maisons de retranscription : f = format du code (c classique 65-0211E, f FRN 1102-65S)
+const HOUSES={vgr:{n:"VGR",logo:"logo-vgr.png?v=1",f:"c"},shp:{n:"SHP",logo:"logo-shp.png?v=1",f:"f"}};
+// DONNÉES DE DÉMONSTRATION (fictives) : d = date, p = M/A/E, du = minutes, sm = résumé d'une ligne, img = pochette LifeCasts, tr = [[maison, pochette de la transcription]]
+const BANDES=[
+ {id:"paradox",t:"A Paradox",sm:"Quand la Parole semble se contredire, la foi y voit une seule vérité.",d:"1965-02-11",p:"E",du:118,lieu:"Jeffersonville, IN",a:1,img:"cover-paradox.jpg",tr:[["vgr","cover-paradox.jpg"],["shp","cover-paradox-shp.jpg"]]},
+ {id:"seal7",t:"The Seventh Seal",sm:"Le silence du ciel et l'ouverture du dernier sceau.",d:"1963-03-24",p:"M",du:162,lieu:"Jeffersonville, IN",a:1,img:"cover-paradox.jpg",tr:[["vgr","cover-paradox.jpg"]]},
+ {id:"mystery",t:"Christ Is the Mystery of God Revealed",sm:"Le mystère caché de Dieu dévoilé en la personne de Christ.",d:"1963-07-28",p:"E",du:134,lieu:"Jeffersonville, IN",a:1,img:"cover-paradox.jpg",tr:[["vgr","cover-paradox.jpg"],["shp","cover-paradox-shp.jpg"]]},
+ {id:"seed",t:"The Spoken Word Is the Original Seed",sm:"Pourquoi la Parole prononcée porte en elle toute la semence.",d:"1962-03-18",p:"M",du:97,lieu:"Phoenix, AZ",a:1,img:"cover-paradox.jpg",tr:[["shp","cover-paradox-shp.jpg"]]},
+ {id:"shalom",t:"Shalom",sm:"Une salutation de paix et ce qu'elle annonce.",d:"1964-01-05",p:"A",du:76,lieu:"Los Angeles, CA",a:1,img:"cover-paradox.jpg",tr:[["vgr","cover-paradox.jpg"]]},
+ {id:"hear",t:"Hear Ye Him",sm:"Écouter la voix de Dieu plutôt que celle des hommes.",d:"1960-08-14",p:"M",du:88,lieu:"Shreveport, LA",a:0,img:"cover-paradox.jpg",tr:[["vgr","cover-paradox.jpg"],["shp","cover-paradox-shp.jpg"]]},
+ {id:"faith",t:"Faith Is the Substance",sm:"La foi comme réalité déjà présente de ce qu'on espère.",d:"1957-01-29",p:"E",du:104,lieu:"Phoenix, AZ",a:1,img:"cover-paradox.jpg",tr:[["shp","cover-paradox-shp.jpg"]]}];
+const TR=ls.g("rd.tr",{});let vf="",SO=ls.g("rd.sort",{k:"d",r:0}),fmo=false;
+const trOf=b=>TR[b.id]&&b.tr.some(x=>x[0]===TR[b.id])?TR[b.id]:b.tr[0][0];
+const cover=b=>b.tr.length===1?b.tr[0][1]:(TR[b.id]&&b.tr.some(x=>x[0]===TR[b.id])?b.tr.find(x=>x[0]===TR[b.id])[1]:b.img);
+const code=(b,hs)=>{const[y,m,d]=b.d.split("-"),yy=y.slice(2);return HOUSES[hs].f==="f"?`${d}${m}-${yy}${b.p==="E"?"S":b.p}`:`${yy}-${m}${d}${b.p}`};
+const dur=n=>n>=60?`${Math.floor(n/60)} h ${String(n%60).padStart(2,"0")} min`:`${n} min`;
+const logoCss=hs=>`background-image:url(${HOUSES[hs].logo})`;
+function bCard(b){const hs=trOf(b),multi=b.tr.length>1;
+ return `<article class="bc"><div class="im" data-b="${esc(b.id)}" style="background-image:url(${esc(cover(b))})"><div class="tx"><small>${b.a?"DISPONIBLE EN AUDIO":"DISPONIBLE EN TEXTE"}</small><b>${esc(b.t)}</b><span>${esc(b.sm)}</span></div></div>`
+ +`<div class="st">${multi?`<button class="th m ${hs}" data-t="${esc(b.id)}" aria-label="Choisir la transcription (${HOUSES[hs].n})" style="${logoCss(hs)}"></button>`:`<i class="th ${hs}" style="${logoCss(hs)}"></i>`}<div><b>William Marrion Branham</b><em>${code(b,hs)}${b.a?" · "+dur(b.du):""}</em></div><button class="pl" data-b="${esc(b.id)}" aria-label="${b.a?"Écouter":"Lire"}">${b.a?'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg>':SV('<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19a2 2 0 0 1 2-2h13"/>')}</button></div></article>`}
+// tri : d date, u durée, a A-Z, l lieu ; r=1 inverse (même touche = change l'ordre)
+const SK={d:"Date",u:"Durée",a:"A–Z",l:"Lieu"},SD={d:["Plus anciennes d'abord","Plus récentes d'abord"],u:["Plus courtes d'abord","Plus longues d'abord"],a:["A → Z","Z → A"],l:["A → Z","Z → A"]};
+const CMP={d:(x,y)=>x.d.localeCompare(y.d)||"MAE".indexOf(x.p)-"MAE".indexOf(y.p),u:(x,y)=>(x.du||0)-(y.du||0),a:(x,y)=>x.t.localeCompare(y.t,"fr",{sensitivity:"base"}),l:(x,y)=>x.lieu.localeCompare(y.lieu,"fr",{sensitivity:"base"})||x.d.localeCompare(y.d)};
+P.sort='<path d="M3 6h18M7 12h10M10 18h4"/>';P.up='<path d="M12 19V5M5 12l7-7 7 7"/>';P.down='<path d="M12 5v14M5 12l7 7 7-7"/>';P.check='<path d="M5 12.5l4.5 4.5L19 7.5"/>';
+function trSheet(b){const o=document.createElement("div");o.className="dlg trs";const cur=trOf(b);
+ o.innerHTML=`<div><h3>Transcription</h3>${b.tr.map(x=>`<button class="tr" data-h="${x[0]}"><i class="th ${x[0]}" style="${logoCss(x[0])}"></i><span>${HOUSES[x[0]].n}<small>${code(b,x[0])}</small></span>${x[0]===cur?I("check"):""}</button>`).join("")}</div>`;
+ o.onclick=e=>{const t=e.target.closest(".tr");if(t){TR[b.id]=t.dataset.h;ls.s("rd.tr",TR);o.remove();drawLib()}else if(e.target===o)o.remove()};document.body.append(o)}
 function drawLib(){
- const L=BANDES.filter(b=>!vf||(vf==="a")===!!b.a);
- q("vLib").innerHTML=`<h1>Librairie</h1><div class="chips">${[["","Tout"],["a","Audio"],["t","Texte"]].map(x=>`<button class="chip" data-v="${x[0]}" aria-pressed="${vf===x[0]}">${x[1]}</button>`).join("")}</div>`
-  +(L.length?`<div class="ls"><h2>${vf==="t"?"À lire":"Disponibles en audio"}</h2><p>${vf==="t"?"Texte seulement":"Écoutez en suivant le texte"}</p></div>${L.map(bCard).join("")}`:'<div class="lvide">Aucune bande.</div>');
- q("vLib").querySelectorAll(".chip").forEach(c=>c.onclick=()=>{vf=c.dataset.v;drawLib()});
- q("vLib").querySelectorAll("[data-b]").forEach(e=>e.onclick=()=>toast("Lecteur bientôt disponible"))}
+ const L=BANDES.filter(b=>!vf||(vf==="a")===!!b.a).sort((x,y)=>(CMP[SO.k](x,y)||x.t.localeCompare(y.t))*(SO.r?-1:1));
+ const list=SO.k==="l"?L.map((b,i)=>(i&&L[i-1].lieu===b.lieu?"":`<div class="ls lp"><h2>${esc(b.lieu)}</h2></div>`)+bCard(b)).join(""):`<div class="ls"><h2>${vf==="t"?"À lire":vf==="a"?"Disponibles en audio":"Toutes les bandes"}</h2><p>${vf==="t"?"Texte seulement":"Écoutez en suivant le texte"}</p></div>${L.map(bCard).join("")}`;
+ q("vLib").innerHTML=`<div class="hd"><h1>Librairie</h1><button class="rb" id="fb" aria-label="Trier" aria-expanded="${fmo}">${I("sort")}</button></div>`
+  +`<div class="fm" id="fm" role="menu"${fmo?"":" hidden"}>${Object.keys(SK).map(k=>`<button class="fr" role="menuitemradio" data-k="${k}" aria-checked="${SO.k===k}"><span>${SK[k]}${SO.k===k?`<small>${SD[k][SO.r]}</small>`:""}</span>${SO.k===k?I(SO.r?"down":"up"):""}</button>`).join("")}</div>`
+  +`<div class="chips">${[["","Tout"],["a","Audio"],["t","Texte"]].map(x=>`<button class="chip" data-v="${x[0]}" aria-pressed="${vf===x[0]}">${x[1]}</button>`).join("")}</div>`
+  +(L.length?list:'<div class="lvide">Aucune bande.</div>');
+ const v=q("vLib");
+ v.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{vf=c.dataset.v;drawLib()});
+ q("fb").onclick=()=>{fmo=!fmo;q("fm").hidden=!fmo;q("fb").setAttribute("aria-expanded",fmo)};
+ v.querySelectorAll(".fr").forEach(b=>b.onclick=()=>{const k=b.dataset.k;SO=SO.k===k?{k,r:SO.r?0:1}:{k,r:0};ls.s("rd.sort",SO);fmo=false;drawLib()});
+ v.querySelectorAll(".th.m").forEach(b=>b.onclick=()=>trSheet(BANDES.find(x=>x.id===b.dataset.t)));
+ v.querySelectorAll(".im[data-b],.pl[data-b]").forEach(e=>e.onclick=()=>toast("Lecteur bientôt disponible"))}
+document.addEventListener("pointerdown",e=>{if(fmo&&!e.target.closest("#fm,#fb")){fmo=false;const m=q("fm");if(m){m.hidden=true;q("fb").setAttribute("aria-expanded","false")}}});
 const acc=()=>ACC.find(a=>a.id===CUR);
 
 // ---------- Compte (structure commune LifeCasts) ----------

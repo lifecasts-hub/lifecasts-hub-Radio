@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>LifeCasts</title>
-<script>/*LC-OTA*/(function(){var B="0.6.3";window.LC_BUILT=B;
+<script>/*LC-OTA*/(function(){var B="0.6.4";window.LC_BUILT=B;
 function c(a,b){a=String(a).split(".");b=String(b).split(".");for(var i=0;i<Math.max(a.length,b.length);i++){var d=(+a[i]||0)-(+b[i]||0);if(d)return d>0?1:-1}return 0}window.LC_CMP=c;
 if(window.LC_OTA_VER){window.LC_VER=window.LC_OTA_VER;return}window.LC_VER=B;
 if(location.protocol!=="file:")return;
@@ -349,23 +349,33 @@ function trSheet(b,done){
  P.addEventListener("pointerup",up);P.addEventListener("pointercancel",up)}
 // animation ligne <-> carte (courbe « ressort » des feuilles iOS)
 const EASE="cubic-bezier(.32,.72,0,1)",RM=matchMedia("(prefers-reduced-motion: reduce)");
+let MB=0;// verrou : une seule animation à la fois
 function morph(el,html,open){
- if(RM.matches||!el.animate){el.outerHTML=html;return}
+ if(MB||!el.isConnected)return false;
+ if(RM.matches||!el.animate){el.outerHTML=html;return true}
  const cs=x=>getComputedStyle(x);el.insertAdjacentHTML("afterend",html);const n=el.nextElementSibling;
  const ov="position:absolute;left:0;right:0;top:0;margin:0;z-index:2;pointer-events:none";
+ const a=[el.offsetHeight,cs(el).borderRadius,cs(el).marginBottom],b=[n.offsetHeight,cs(n).borderRadius,cs(n).marginBottom];
+ MB=1;let done=0;
+ // fin idempotente : appelée par onfinish OU par le filet de sécurité (onfinish ne part pas si l'animation est annulée)
+ const fin=()=>{if(done)return;done=1;MB=0;
+  if(open){el.remove();delete n.dataset.busy;n.style.position=""}
+  else if(el.isConnected){el.outerHTML=html}
+  const v=q("vLib");v&&paint(v)};
+ setTimeout(fin,720);
  if(open){
-  const a=[el.offsetHeight,cs(el).borderRadius,cs(el).marginBottom],b=[n.offsetHeight,cs(n).borderRadius,cs(n).marginBottom];
-  n.dataset.busy=1;n.style.position="relative";el.style.cssText+=";"+ov;n.append(el);
+  n.dataset.busy=1;n.style.position="relative";el.dataset.busy=1;el.style.cssText+=";"+ov;n.append(el);
   n.animate([{height:a[0]+"px",borderRadius:a[1],marginBottom:a[2]},{height:b[0]+"px",borderRadius:b[1],marginBottom:b[2]}],{duration:560,easing:EASE});
   Array.from(n.children).filter(c=>c!==el).forEach((c,i)=>c.animate([{opacity:0,transform:"scale(1.05)"},{opacity:1,transform:"none"}],{duration:480,delay:60+i*40,easing:EASE,fill:"backwards"}));
-  el.animate([{opacity:1},{opacity:0}],{duration:220,easing:"ease-out",fill:"forwards"}).onfinish=()=>{el.remove();delete n.dataset.busy}
+  el.animate([{opacity:1},{opacity:0}],{duration:220,easing:"ease-out",fill:"forwards"}).onfinish=()=>{el.style.visibility="hidden"};
+  setTimeout(fin,580)
  }else{
-  const a=[el.offsetHeight,cs(el).borderRadius,cs(el).marginBottom],b=[n.offsetHeight,cs(n).borderRadius,cs(n).marginBottom];
   el.dataset.busy=1;el.style.position="relative";n.style.cssText+=";"+ov+";opacity:0";
   Array.from(el.children).forEach(c=>c.animate([{opacity:1},{opacity:0}],{duration:240,easing:"ease-out",fill:"forwards"}));el.append(n);
   n.animate([{opacity:0},{opacity:1}],{duration:300,delay:140,easing:"ease-out",fill:"both"});
-  el.animate([{height:a[0]+"px",borderRadius:a[1],marginBottom:a[2]},{height:b[0]+"px",borderRadius:b[1],marginBottom:b[2]}],{duration:520,easing:EASE,fill:"forwards"}).onfinish=()=>{el.outerHTML=html;paint(q("vLib"))}
- }}
+  el.animate([{height:a[0]+"px",borderRadius:a[1],marginBottom:a[2]},{height:b[0]+"px",borderRadius:b[1],marginBottom:b[2]}],{duration:520,easing:EASE,fill:"forwards"}).onfinish=fin
+ }
+ return true}
 function drawLib(){
  const L=BANDES.filter(b=>!vf||(vf==="a")===!!b.a).sort((x,y)=>(CMP[SO.k](x,y)||x.t.localeCompare(y.t))*(SO.r?-1:1));
  const list=SO.k==="l"?L.map((b,i)=>(i&&L[i-1].lieu===b.lieu?"":`<div class="ls lp"><h2>${esc(b.lieu)}</h2></div>`)+item(b)).join(""):`<div class="ls"><h2>${vf==="t"?"À lire":vf==="a"?"Disponibles en audio":"Toutes les bandes"}</h2><p>${vf==="t"?"Texte seulement":"Écoutez en suivant le texte"}</p></div>${L.map(item).join("")}`;
@@ -382,10 +392,10 @@ function drawLib(){
   const PL=e.target.closest(".pl");if(PL)return openBande(BANDES.find(x=>x.id===PL.dataset.b));
   const el=e.target.closest("[data-id]");if(!el||VW!=="l"){const IM=e.target.closest(".im");return IM&&openBande(BANDES.find(x=>x.id===IM.dataset.b))}if(el.dataset.busy)return;
   const id=el.dataset.id,bd=BANDES.find(x=>x.id===id);if(el.classList.contains("rw")){if(Date.now()-lpT<700)return;return openBande(bd)}
-  if(e.target.closest(".im")){OPEN.delete(id);morph(el,bRow(bd),false);paint(v)}};
+  if(e.target.closest(".im")&&!MB&&morph(el,bRow(bd),false))OPEN.delete(id)};
  let lpT=0,lpI=null,lx=0,ly=0;const lpX=()=>{clearTimeout(lpI);lpI=null};
- v.addEventListener("pointerdown",e=>{const el=e.target.closest(".rw[data-id]");if(!el||VW!=="l"||el.dataset.busy||e.target.closest(".pl"))return;lx=e.clientX;ly=e.clientY;lpX();
-  lpI=setTimeout(()=>{lpI=null;lpT=Date.now();if(navigator.vibrate)navigator.vibrate(12);const id=el.dataset.id,bd=BANDES.find(x=>x.id===id);OPEN.add(id);morph(el,bCard(bd,1),true);paint(v)},450)});
+ v.addEventListener("pointerdown",e=>{const el=e.target.closest(".rw[data-id]");if(!el||VW!=="l"||MB||el.dataset.busy||e.target.closest(".pl"))return;lx=e.clientX;ly=e.clientY;lpX();
+  lpI=setTimeout(()=>{lpI=null;lpT=Date.now();if(navigator.vibrate)navigator.vibrate(12);if(MB||!el.isConnected)return;const id=el.dataset.id,bd=BANDES.find(x=>x.id===id);if(morph(el,bCard(bd,1),true))OPEN.add(id)},450)});
  v.addEventListener("pointermove",e=>{if(lpI&&Math.hypot(e.clientX-lx,e.clientY-ly)>8)lpX()});
  ["pointerup","pointercancel","pointerleave"].forEach(t=>v.addEventListener(t,lpX));
  v.addEventListener("contextmenu",e=>{if(e.target.closest(".rw"))e.preventDefault()});
